@@ -18,21 +18,19 @@ public class AutomationDriver {
 		AutomationDriver.exercise2(driver);
 		AutomationDriver.exercise3(driver);
 		AutomationDriver.exercise4(driver);
-		AutomationDriver.exercise4Point1(driver);
-		AutomationDriver.exercise4Point2(driver);
 		AutomationDriver.exercise5(driver);
 		AutomationDriver.exercise6(driver);
 		AutomationDriver.exercise7(driver);
+		AutomationDriver.exercise8(driver);
+		AutomationDriver.exercise9(driver);
 	}
 	
 	static void exercise1(WebDriver driver) throws InterruptedException {
 		driver.findElement(By.xpath("//input[@value='radio1']")).click();
 		Assert.assertTrue(driver.findElement(By.xpath("//input[@value='radio1']")).isSelected());
-		Thread.sleep(1000);
 		
 		driver.findElement(By.xpath("//input[@value='radio2']")).click();
 		Assert.assertTrue(driver.findElement(By.xpath("//input[@value='radio2']")).isSelected());
-		Thread.sleep(1000);
 		
 		driver.findElement(By.xpath("//input[@value='radio3']")).click();
 		Assert.assertTrue(driver.findElement(By.xpath("//input[@value='radio3']")).isSelected());
@@ -72,7 +70,7 @@ public class AutomationDriver {
 		//deselect option1
 		driver.findElement(By.name("checkBoxOption1")).click();
 		System.out.println(driver.findElement(By.name("checkBoxOption1")).isSelected());//expected false
-		Thread.sleep(1000);
+		
 		
 		driver.findElement(By.name("checkBoxOption2")).click();
 		Assert.assertTrue(driver.findElement(By.name("checkBoxOption2")).isSelected());
@@ -80,7 +78,7 @@ public class AutomationDriver {
 		//deselect option2
 		driver.findElement(By.name("checkBoxOption2")).click();
 		Assert.assertFalse(driver.findElement(By.name("checkBoxOption2")).isSelected());
-		Thread.sleep(1000);
+		
 		
 		driver.findElement(By.name("checkBoxOption3")).click();
 		System.out.println(driver.findElement(By.name("checkBoxOption3")).isSelected());
@@ -88,6 +86,9 @@ public class AutomationDriver {
 		//deselect option3
 		driver.findElement(By.name("checkBoxOption3")).click();
 		System.out.println(driver.findElement(By.name("checkBoxOption3")).isSelected());//expected false
+		
+		AutomationDriver.exercise4Point1(driver);
+		AutomationDriver.exercise4Point2(driver);
 		
 	}
 	
@@ -110,43 +111,53 @@ public class AutomationDriver {
 	
 	static void exercise5(WebDriver driver) throws InterruptedException{
 		driver.findElement(By.id("openwindow")).click();
-		Thread.sleep(3000);
 		Set<String> Windows = driver.getWindowHandles();
 		Iterator<String> it = Windows.iterator();
 		String parent = it.next();
 		String child = it.next();
 		driver.switchTo().window(child);
-		Thread.sleep(2000);
 		driver.switchTo().window(parent);
 	}
 	
 	static void exercise6(WebDriver driver) throws InterruptedException{
 		driver.findElement(By.id("opentab")).click();
-		Thread.sleep(2000);
 		Set<String> Windows1 = driver.getWindowHandles();
 		Iterator<String> it = Windows1.iterator();
 		String parent1 = it.next();
 		String child1 = it.next();
 		driver.switchTo().window(parent1);
-		Thread.sleep(2000);
 		driver.switchTo().window(child1);
-		Thread.sleep(4000);
 		driver.close();
 		driver.switchTo().window(parent1);
 	}
 	
 	static void exercise7(WebDriver driver) throws InterruptedException{
 		driver.findElement(By.id("name")).sendKeys("Kaitan");
-		Thread.sleep(2000);
 		driver.findElement(By.id("alertbtn")).click();
 		System.out.println("Eercise7 alert output");
 		System.out.println(driver.switchTo().alert().getText());
-		Thread.sleep(2000);
 		driver.switchTo().alert().accept();
 		
 	}
-	
 	static void exercise8(WebDriver driver) throws InterruptedException{
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,500)");
+		Thread.sleep(1000);
+		List<WebElement> Tableblock =  driver.findElements(By.className("table-display"));
+		for(WebElement table : Tableblock) {
+			table.getText();
+		}
+		
+	}
+	
+	static void exercise9(WebDriver driver) throws InterruptedException{
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.scrollBy(0,700)");
+		Thread.sleep(5000);
+		Actions a = new Actions(driver);
+		a.moveToElement(driver.findElement(By.id("mousehover"))).click().build().perform();
+		Thread.sleep(1000);
+		a.moveToElement(driver.findElement(By.xpath("//a[contains(text(),'top')]"))).click().build().perform();
 		
 	}
 	
